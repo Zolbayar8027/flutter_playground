@@ -22,35 +22,39 @@ class MyApp extends StatelessWidget {
 class BodyWidget extends StatelessWidget {
 
   //String fruit = 'Apples';
-  final fruitNotfier = ValueNotifier<String>('apples');
+  //final fruitNotfier = ValueNotifier<String>('apples');
+  final colorNotfier = ValueNotifier<Color>(Colors.tealAccent.shade700);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        //color: Colors.yellow,
-        child: Column(
-          children: [
-            SizedBox(height: 100),
-            ValueListenableBuilder<String>(
-              valueListenable: fruitNotfier,
-              builder: (context, value, child) {
-                return Text(value);
-              },
-            ),
+    return ValueListenableBuilder(
+      valueListenable: colorNotfier,
+      builder: (context, colot, child) {
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.red,
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: 100),
+                Text('hello'),
+                SizedBox(height: 100),
+                ElevatedButton(
+                  onPressed: () {
+                    print('I was clicked.');
 
-            SizedBox(height: 100),
-            ElevatedButton(
-              onPressed: () {
-                print('I was clicked.');
-
-                fruitNotfier.value = 'Bananas';
-              },
-              child: Text('Click me'),
+                    colorNotfier.value = Colors.indigo.shade700;
+                  },
+                  child: Text('Click me'),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+
+        );
+      },
+
     );
   }
 }
