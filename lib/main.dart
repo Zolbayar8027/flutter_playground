@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-import 'service_locator.dart';
 void main() {
-  setupServiceLocator();
   runApp(MyApp());
 }
 
@@ -12,58 +9,65 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Scaffold(
+        body: BodyWidget(),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  final String title;
-  MyHomePage({Key key, this.title}) : super(key: key);
-
+class BodyWidget extends StatefulWidget {
+  const BodyWidget({
+    Key key,
+  }) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _BodyWidgetState createState() => _BodyWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class _BodyWidgetState extends State<BodyWidget> {
+  var myFontSize=20.0,
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+    return Column(
+      children: [
+        Text(
+          'MyWonderfulMe',
+          style: TextStyle(fontSize: myFontSize),
+        ),
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  myFontSize = 10.0;
+                });
+              },
+              child: Text('Small'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  myFontSize = 20.0;
+                });
+              },
+              child: Text('Medium'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  myFontSize = 50.0;
+                });
+              },
+              child: Text('Large'),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+        )
+      ],
     );
   }
 }
