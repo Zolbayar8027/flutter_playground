@@ -13,15 +13,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.0
-  stacked: ^2.0.0
-  shared_preferences: any
-  get_it: ^6.0.0
+
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  sqflite: ^2.0.0+3
+  path_provider: ^2.0.1
 
 flutter:
 
