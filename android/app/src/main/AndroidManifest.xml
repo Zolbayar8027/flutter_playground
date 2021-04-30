@@ -9,6 +9,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="flutter_playground"
         android:icon="@mipmap/ic_launcher">
+        android:usesCleartextTraffic="True"
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

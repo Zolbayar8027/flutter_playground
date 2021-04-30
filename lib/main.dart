@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -7,86 +8,64 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SQFlite Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
 
-  // reference to our single class that manages the database
-  final dbHelper = DatabaseHelper.instance;
 
-  // homepage layout
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  String latitude ='';
+  String longitude ='';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('sqflite'),
-      ),
+      appBar: AppBar(title: Text('HTTP requests')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              child: Text('insert', style: TextStyle(fontSize: 20),),
-              onPressed: _insert,
+              child: Text(
+                'GET',
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: _makeGetRequest,
             ),
-            ElevatedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: _query,
-            ),
-            ElevatedButton(
-              child: Text('update', style: TextStyle(fontSize: 20),),
-              onPressed: _update,
-            ),
-            ElevatedButton(
-              child: Text('delete', style: TextStyle(fontSize: 20),),
-              onPressed: _delete,
-            ),
+            Text('Latitude: $latitude'),
+            Text('Longitude: $longitude'),
           ],
         ),
       ),
     );
   }
 
-  // Button onPressed methods
+  _makeGetRequest() async {
+    // make GET request
+    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
+    Response response = await get(url);
+    // sample info available in response
+    int statusCode = response.statusCode;
+    print('status code: $statusCode');
+    Map<String, String> headers = response.headers;
+    String contentType = headers['content-type'];
+    String json = response.body;
+    print('Json: $json');
+    Map<String, dynamic> jsonMap = jsonDecode(json);
+    print(jsonMap);
+    latitude = jsonMap['iss_position']['latitude'];
+    longitude = jsonMap['iss_position']['longitude'];
+    print(latitude);
+    print(longitude);
 
-  void _insert() async {
-    // row to insert
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnName : 'Bob',
-      DatabaseHelper.columnAge  : 23
-    };
-    final id = await dbHelper.insert(row);
-    print('inserted row id: $id');
   }
 
-  void _query() async {
-    final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
-    allRows.forEach(print);
-  }
 
-  void _update() async {
-    // row to update
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnId   : 1,
-      DatabaseHelper.columnName : 'Mary',
-      DatabaseHelper.columnAge  : 32
-    };
-    final rowsAffected = await dbHelper.update(row);
-    print('updated $rowsAffected row(s)');
-  }
-
-  void _delete() async {
-    // Assuming that the number of rows is the id for the last row.
-    final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(id);
-    print('deleted $rowsDeleted row(s): row $id');
-  }
 }
