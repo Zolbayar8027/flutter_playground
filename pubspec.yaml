@@ -13,12 +13,14 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.1
-
+  firebase_core: ^0.5.2
+  firebase_database: ^4.3.0
   shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 flutter:
