@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -8,64 +6,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  String latitude ='';
-  String longitude ='';
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('HTTP requests')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              child: Text(
-                'GET',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: _makeGetRequest,
-            ),
-            Text('Latitude: $latitude'),
-            Text('Longitude: $longitude'),
-          ],
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Welcome to Flutter'),
+        ),
+        body: Center(
+          child: Text('Hello World'),
         ),
       ),
     );
   }
-
-  _makeGetRequest() async {
-    // make GET request
-    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
-    Response response = await get(url);
-    // sample info available in response
-    int statusCode = response.statusCode;
-    print('status code: $statusCode');
-    Map<String, String> headers = response.headers;
-    String contentType = headers['content-type'];
-    String json = response.body;
-    print('Json: $json');
-    Map<String, dynamic> jsonMap = jsonDecode(json);
-    print(jsonMap);
-    latitude = jsonMap['iss_position']['latitude'];
-    longitude = jsonMap['iss_position']['longitude'];
-    print(latitude);
-    print(longitude);
-
-  }
-
-
 }
