@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.hasData) {
             return MyHomePage();
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -32,7 +35,16 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Container(
+        child:
+        Column(children: [
+          ElevatedButton(onPressed: (){
+            print('hi');
+            DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
+            _testRef.set("hello ${Random().nextInt(100)}")  ;
+          }, child: Text('Update firebase database'))
+        ],),
+      ),
     );
   }
 }
