@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mongol/mongol.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -8,38 +9,67 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(home: HomePage());
   }
 }
 
 class HomePage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+  Widget build(BuildContext context,) {
 
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fitHeight,
-              image: AssetImage('images/profile.jpg',),
-
-            )
-          ),
-          height: 500,
-          width: 400,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: MongolText(
-              'ᠮᠢᠨᠦ ᠨᠡᠷ᠎ᠡ ᠶᠢ ᠵᠣᠯᠪᠠᠶᠠᠷ ᠭᠡᠳᠡᠭ᠃ 21 ᠨᠠᠰᠤᠲᠠᠢ ᠪᠥᠭᠡᠳ ᠡᠮ ᠠᠢ ᠤᠤ ᠳᠡᠭᠡᠳᠦ ᠰᠤᠷᠭᠠᠭᠤᠯᠢ ᠳᠤ 3 ᠳᠦᠭᠡᠷ ᠺᠦᠷᠰ ᠲᠦ ᠰᠤᠷᠠᠳᠠᠭ ᠪᠣᠯᠤᠨ᠎ᠠ᠃ ᠪᠢ ᠴᠢᠯᠦᠭᠡᠲᠦ ᠴᠠᠭᠠᠷᠠᠢ ᠠᠭᠤᠯᠠᠨ ᠳᠤ ᠭᠠᠷᠬᠤ ᠳᠤᠷᠠᠲᠠᠢ ᠪᠠᠰᠠ ᠮᠠᠰᠢᠨ ᠪᠠᠷᠢᠬᠤ᠃',
-              style: TextStyle(fontFamily: 'MongolianScript', fontSize: 15, color: Colors.white),
-
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Colors.teal,
+              child: OrientationBuilder(
+                builder: (context, orientation,) => Center(
+                  child: Message(deviceOrientation: orientation),
+                ),
+              ),
             ),
           ),
-        ),
+          Expanded(
+            flex: 3,
+            child: OrientationBuilder(
+              builder: (context, orientation,) => Container(
+                color: Colors.white,
+                child: Center(
+                  child: Message(deviceOrientation: orientation),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      ),
+    );
+  }
+}
+
+class Message extends StatelessWidget {
+  const Message({
+    Key key,
+    @required this.deviceOrientation,
+  }) : super(key: key);
+
+  final Orientation deviceOrientation;
+
+  @override
+  Widget build(BuildContext context) {
+    String message;
+
+    if ( deviceOrientation == Orientation.portrait ){
+      message = "hello";
+    }
+    else{
+      message = "hello. it is nice to meet you cat";
+    }
+    return Text(
+      message,
+      style: TextStyle(color: Colors.black, fontSize: 18),
     );
   }
 }
